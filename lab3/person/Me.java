@@ -1,11 +1,11 @@
 package person;
 
-import java.util.ArrayList;
-import java.util.Objects;
-
 import items.Item;
 import places.Place;
 import utils.Times;
+
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class Me extends Person{
     private boolean isPart;

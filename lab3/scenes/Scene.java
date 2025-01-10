@@ -1,15 +1,16 @@
 package scenes;
 
-import java.util.HashMap;
-
 import items.Item;
-import places.Place;
 import person.Person;
+import places.Place;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Scene {
-    protected HashMap<String, Person> persons;
-    protected HashMap<String, Item> items;
-    protected HashMap<String, Place> places;
+    protected Map<String, Person> persons;
+    protected Map<String, Item> items;
+    protected Map<String, Place> places;
 
     public Scene() {
         persons = new HashMap<String, Person>();

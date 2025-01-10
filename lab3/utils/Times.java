@@ -4,7 +4,7 @@ public enum Times {
     TIMETOIME("время от времени"),
     NEVER("никогда не"),
     THEN("затем"),
-    Finally("наконец,"),
+    FINALLY("наконец,"),
     LONGERTHANEXPECT("гораздо дольше, чем рассчитывал"),
     SIXSIX("Шестого ноября, в шестой год ");
 

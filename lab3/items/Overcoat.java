@@ -1,10 +1,10 @@
 package items;
 
+import interfaces.Countable;
+import utils.NotEnoughItemsException;
+
 import java.text.DecimalFormat;
 import java.util.Objects;
-
-import interfaces.Countable;
-import utils.CountZeroException;
 
 public class Overcoat extends Item implements Countable{
     private int count;
@@ -17,8 +17,7 @@ public class Overcoat extends Item implements Countable{
         try{
             checkCount();
             this.text =  new DecimalFormat("#.##").format(number) + " " + this.text;
-        }
-        catch (CountZeroException e){
+        } catch (NotEnoughItemsException e) {
             this.resetState();
         }
         
@@ -27,9 +26,10 @@ public class Overcoat extends Item implements Countable{
     public double getCount() {
         return count;
     }
-    public void checkCount() throws CountZeroException{
+
+    public void checkCount() throws NotEnoughItemsException {
         if(count == 0){
-            throw new CountZeroException(this);
+            throw new NotEnoughItemsException(this);
         }
     }
 

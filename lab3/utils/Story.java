@@ -1,11 +1,12 @@
 package utils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
 public class Story {
-    private ArrayList<String> sentences;
+    private List<String> sentences;
 
     public Story() {
         this.sentences = new ArrayList<String>();
@@ -18,7 +19,7 @@ public class Story {
         }
     }
 
-    public ArrayList<String> getSentences(){
+    public List<String> getSentences() {
         return this.sentences;
     }
 

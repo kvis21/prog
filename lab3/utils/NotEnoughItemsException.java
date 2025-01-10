@@ -3,16 +3,16 @@ package utils;
 import items.Item;
 import person.Person;
 
-public class CountZeroException extends Exception{
+public class NotEnoughItemsException extends Exception{
 
     private final String objectName;
 
-    public CountZeroException(Item item) {
+    public NotEnoughItemsException(Item item) {
         super("количество предмета = 0"); 
         this.objectName = item.getName();
     }
 
-    public CountZeroException(Person person) {
+    public NotEnoughItemsException(Person person) {
         super("количество персонажей = 0"); 
         this.objectName = person.getName();
     }

@@ -1,14 +1,14 @@
 package scenes;
 
-import java.util.Objects;
-
 import items.*;
 import person.Me;
 import person.Person;
 import person.Sailors;
 import places.Ship;
-import utils.CountZeroException;
+import utils.NotEnoughItemsException;
 import utils.Sizes;
+
+import java.util.Objects;
 
 public class SceneStockedUp extends Scene{
     public SceneStockedUp() {
@@ -38,8 +38,7 @@ public class SceneStockedUp extends Scene{
             carpet.clarification("точнее - лепешек");
 
             me.take(new Item[]{carpet, bigGlayPot, bottleOfRome, goatInk});
-        }
-        catch (CountZeroException e){
+        } catch (NotEnoughItemsException e) {
             me.take(new Item[]{bigGlayPot, bottleOfRome, goatInk});
         }
 
@@ -56,7 +55,7 @@ public class SceneStockedUp extends Scene{
             overcoat.checkCount();
             clothing.clarification(overcoat.getText()+" из упомянутых выше");
             me.take(new Item[]{gun, clothing});
-        }catch (CountZeroException e){
+        } catch (NotEnoughItemsException e) {
             me.take(new Item[]{gun});
         }
         

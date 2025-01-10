@@ -1,11 +1,12 @@
 import items.*;
-import person.*;
+import person.Me;
+import person.Sailors;
 import places.*;
 import scenes.*;
-import utils.*;
+import utils.Story;
 
 public class Main {
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         Story story = new Story();
 
@@ -23,7 +24,7 @@ public class Main {
         scene.addPlace(new Tent());
         scene.addPerson(me);
         String sentence1 = scene.start();
-        
+
         scene = new SceneAboutSea();
         scene.addPerson(me);
         scene.addPlace(sea);
@@ -39,14 +40,14 @@ public class Main {
         String sentence3 = scene.start();
 
         scene = new SceneStockedUp();
-        scene.addPerson(new Me()); 
+        scene.addPerson(new Me());
         scene.addPerson(new Sailors());
         scene.addPlace(ship);
         scene.addItem(new BigGlayPot());
         scene.addItem(new Carpet());
         scene.addItem(new BottleOfRome());
         scene.addItem(new GoatInk());
-        scene.addItem(new Rice((int) (Math.random()*50)+50));
+        scene.addItem(new Rice((int) (Math.random() * 50) + 50));
         scene.addItem(new Gun());
         scene.addItem(new Clothing());
         scene.addItem(new Goat());
