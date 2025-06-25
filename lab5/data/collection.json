@@ -1,0 +1,101 @@
+{
+  "collection": [
+    {
+      "id": 4,
+      "name": "flat#1",
+      "coordinates": {
+        "x": 50,
+        "y": 50
+      },
+      "creationDate": "2025-04-04T16:06:30.0515646",
+      "area": 25.0,
+      "numberOfRooms": 24,
+      "balcony": true,
+      "numberOfBathrooms": 40,
+      "view": "PARK",
+      "house": {
+        "name": "house#1",
+        "year": 30,
+        "numberOfFlatsOnFloor": 4
+      }
+    },
+    {
+      "id": 5,
+      "name": "flat#1",
+      "coordinates": {
+        "x": 50,
+        "y": 50
+      },
+      "creationDate": "2025-04-04T16:07:05.7543579",
+      "area": 25.0,
+      "numberOfRooms": 24,
+      "balcony": true,
+      "numberOfBathrooms": 40,
+      "view": "PARK",
+      "house": {
+        "name": "house#1",
+        "year": 30,
+        "numberOfFlatsOnFloor": 4
+      }
+    },
+    {
+      "id": 1,
+      "name": "flat#1",
+      "coordinates": {
+        "x": 50,
+        "y": 50
+      },
+      "creationDate": "2025-04-04T16:06:20.3815404",
+      "area": 25.0,
+      "numberOfRooms": 24,
+      "balcony": true,
+      "numberOfBathrooms": 40,
+      "view": "PARK",
+      "house": {
+        "name": "house#1",
+        "year": 30,
+        "numberOfFlatsOnFloor": 4
+      }
+    },
+    {
+      "id": 3,
+      "name": "flat#1",
+      "coordinates": {
+        "x": 50,
+        "y": 50
+      },
+      "creationDate": "2025-04-04T16:06:30.0407431",
+      "area": 25.0,
+      "numberOfRooms": 24,
+      "balcony": true,
+      "numberOfBathrooms": 40,
+      "view": "PARK",
+      "house": {
+        "name": "house#1",
+        "year": 30,
+        "numberOfFlatsOnFloor": 4
+      }
+    },
+    {
+      "id": 2,
+      "name": "flat#1",
+      "coordinates": {
+        "x": 50,
+        "y": 50
+      },
+      "creationDate": "2025-04-04T16:06:22.1998049",
+      "area": 25.0,
+      "numberOfRooms": 24,
+      "balcony": true,
+      "numberOfBathrooms": 40,
+      "view": "PARK",
+      "house": {
+        "name": "house#1",
+        "year": 30,
+        "numberOfFlatsOnFloor": 4
+      }
+    }
+  ],
+  "currentId": 6,
+  "lastSaveTime": "2025-04-04T16:07:58.4491087"
+}
