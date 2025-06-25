@@ -4,7 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PasswordUtil {
-    static public String hashPassword(String password){
+    static public String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-384");
 
@@ -23,7 +23,7 @@ public class PasswordUtil {
         if (inputPassword == null || hashedPassword == null) {
             return false;
         }
-    
+
         String inputHashed = hashPassword(inputPassword);
         return inputHashed.equals(hashedPassword);
     }

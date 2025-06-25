@@ -30,9 +30,11 @@ public class Request implements Serializable {
         this.commandName = commandName;
         this.args = args;
     }
-    public Request(String commandName) {}
-    
-    public UserDTO getUser(){
+
+    public Request(String commandName) {
+    }
+
+    public UserDTO getUser() {
         return user;
     }
 

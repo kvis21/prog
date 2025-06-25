@@ -10,29 +10,48 @@ import java.util.Objects;
  */
 
 
-public class Flat implements Serializable{
-    /** Non-null, positive, unique, auto-generated ID */
-    private Integer id;
-    /** Non-null, non-empty string */
-    private String name;
-    /** Non-null coordinates */
-    private Coordinates coordinates;
-    /** Non-null, auto-generated creation date */
-    private LocalDateTime creationDate;
-    /** Area value (must be > 0) */
-    private float area;
-    /** Number of rooms (must be > 0) */
-    private Integer numberOfRooms;
-    /** Balcony availability flag */
-    private boolean balcony;
-    /** Number of bathrooms (must be > 0) */
-    private int numberOfBathrooms;
-    /** Non-null view type */
-    private View view;
-    /** Optional house reference (can be null) */
-    private House house;
-
+public class Flat implements Serializable {
     int userId;
+    /**
+     * Non-null, positive, unique, auto-generated ID
+     */
+    private Integer id;
+    /**
+     * Non-null, non-empty string
+     */
+    private String name;
+    /**
+     * Non-null coordinates
+     */
+    private Coordinates coordinates;
+    /**
+     * Non-null, auto-generated creation date
+     */
+    private LocalDateTime creationDate;
+    /**
+     * Area value (must be > 0)
+     */
+    private float area;
+    /**
+     * Number of rooms (must be > 0)
+     */
+    private Integer numberOfRooms;
+    /**
+     * Balcony availability flag
+     */
+    private boolean balcony;
+    /**
+     * Number of bathrooms (must be > 0)
+     */
+    private int numberOfBathrooms;
+    /**
+     * Non-null view type
+     */
+    private View view;
+    /**
+     * Optional house reference (can be null)
+     */
+    private House house;
 
     public Flat() {
     }
@@ -48,114 +67,41 @@ public class Flat implements Serializable{
                 int numberOfBathrooms,
                 View view,
                 House house) {
-                    this.id = id;
-                    this.userId = userId;
-                    this.name = name;
-                    this.coordinates = coordinates;
-                    this.creationDate = creationDate;
-                    this.area = area;
-                    this.numberOfRooms = numberOfRooms;
-                    this.balcony = balcony;
-                    this.numberOfBathrooms = numberOfBathrooms;
-                    this.view = view;
-                    this.house = house;
-    }
-    
-    public int getUserId(){
-        return userId;
-    }
-
-    public void setUserId(int userId){
-        this.userId = userId;
-    }
-
-    /**
-     * Sets the flat's ID.
-     * @param id must be non-null, positive and unique
-     */
-    public void setId(Integer id) {
         this.id = id;
-    }
-
-    /**
-     * Sets the flat's name.
-     * @param name must be non-null and non-empty
-     */
-    public void setName(String name) {
+        this.userId = userId;
         this.name = name;
-    }
-
-    /**
-     * Sets the flat's coordinates.
-     * @param coordinates must be non-null
-     */
-    public void setCoordinates(Coordinates coordinates) {
         this.coordinates = coordinates;
-    }
-
-    /**
-     * Sets the creation date.
-     * @param creationDate must be non-null
-     */
-    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
-    }
-
-    /**
-     * Sets the flat's area.
-     * @param area must be greater than 0
-     */
-    public void setArea(float area) {
         this.area = area;
-    }
-
-    /**
-     * Sets number of rooms.
-     * @param numberOfRooms must be greater than 0
-     */
-    public void setNumberOfRooms(Integer numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
-    }
-
-    /**
-     * Sets balcony availability.
-     * @param balcony true if flat has balcony
-     */
-    public void setBalcony(boolean balcony) {
         this.balcony = balcony;
-    }
-
-    /**
-     * Sets number of bathrooms.
-     * @param numberOfBathrooms must be greater than 0
-     */
-    public void setNumberOfBathrooms(int numberOfBathrooms) {
         this.numberOfBathrooms = numberOfBathrooms;
-    }
-    
-    /**
-     * Sets the view type.
-     * @param view must be non-null
-     */
-    public void setView(View view) {
         this.view = view;
-    }
-
-    /**
-     * Sets the house reference.
-     * @param house can be null
-     */
-    public void setHouse(House house) {
         this.house = house;
     }
 
-    // Getters with return value documentation
-    
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     /**
      * @return the flat's ID
      */
     public Integer getId() {
         return id;
+    }
+
+    /**
+     * Sets the flat's ID.
+     *
+     * @param id must be non-null, positive and unique
+     */
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**
@@ -166,10 +112,28 @@ public class Flat implements Serializable{
     }
 
     /**
+     * Sets the flat's name.
+     *
+     * @param name must be non-null and non-empty
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * @return the flat's coordinates
      */
     public Coordinates getCoordinates() {
         return coordinates;
+    }
+
+    /**
+     * Sets the flat's coordinates.
+     *
+     * @param coordinates must be non-null
+     */
+    public void setCoordinates(Coordinates coordinates) {
+        this.coordinates = coordinates;
     }
 
     /**
@@ -179,15 +143,44 @@ public class Flat implements Serializable{
         return creationDate;
     }
 
+    /**
+     * Sets the creation date.
+     *
+     * @param creationDate must be non-null
+     */
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
     public Boolean getBalcony() {
         return balcony;
     }
+
+    /**
+     * Sets balcony availability.
+     *
+     * @param balcony true if flat has balcony
+     */
+    public void setBalcony(boolean balcony) {
+        this.balcony = balcony;
+    }
+
+    // Getters with return value documentation
 
     /**
      * @return the view type
      */
     public View getView() {
         return view;
+    }
+
+    /**
+     * Sets the view type.
+     *
+     * @param view must be non-null
+     */
+    public void setView(View view) {
+        this.view = view;
     }
 
     /**
@@ -198,10 +191,28 @@ public class Flat implements Serializable{
     }
 
     /**
+     * Sets the house reference.
+     *
+     * @param house can be null
+     */
+    public void setHouse(House house) {
+        this.house = house;
+    }
+
+    /**
      * @return the flat's area
      */
     public float getArea() {
         return area;
+    }
+
+    /**
+     * Sets the flat's area.
+     *
+     * @param area must be greater than 0
+     */
+    public void setArea(float area) {
+        this.area = area;
     }
 
     /**
@@ -212,6 +223,15 @@ public class Flat implements Serializable{
     }
 
     /**
+     * Sets number of bathrooms.
+     *
+     * @param numberOfBathrooms must be greater than 0
+     */
+    public void setNumberOfBathrooms(int numberOfBathrooms) {
+        this.numberOfBathrooms = numberOfBathrooms;
+    }
+
+    /**
      * @return number of rooms
      */
     public int getNumberOfRooms() {
@@ -219,12 +239,22 @@ public class Flat implements Serializable{
     }
 
     /**
+     * Sets number of rooms.
+     *
+     * @param numberOfRooms must be greater than 0
+     */
+    public void setNumberOfRooms(Integer numberOfRooms) {
+        this.numberOfRooms = numberOfRooms;
+    }
+
+    /**
      * Compares flats by area.
+     *
      * @param flat the flat to compare to
      * @return comparison result
      */
     public int compareTo(Flat flat) {
-        return ((Float) (this.getArea()*this.getNumberOfRooms())).compareTo(flat.getArea()*flat.getNumberOfRooms());
+        return ((Float) (this.getArea() * this.getNumberOfRooms())).compareTo(flat.getArea() * flat.getNumberOfRooms());
     }
 
     /**
@@ -248,6 +278,7 @@ public class Flat implements Serializable{
 
     /**
      * Checks equality based on all fields except view and house.
+     *
      * @param o object to compare
      * @return true if objects are equal
      */
@@ -268,17 +299,18 @@ public class Flat implements Serializable{
 
     /**
      * Generates hash code based on all fields except view and house.
+     *
      * @return hash code value
      */
     @Override
     public int hashCode() {
         return Objects.hash(id,
-                          area,
-                          numberOfRooms,
-                          balcony,
-                          numberOfBathrooms,
-                          name,
-                          coordinates,
-                          creationDate);
+                area,
+                numberOfRooms,
+                balcony,
+                numberOfBathrooms,
+                name,
+                coordinates,
+                creationDate);
     }
 }

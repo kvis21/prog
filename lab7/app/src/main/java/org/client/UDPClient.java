@@ -31,16 +31,12 @@ public class UDPClient implements AutoCloseable {
     private static final int BUFFER_SIZE = ServerConfiguration.BUFFER_SIZE;
     private static final int TIMEOUT_MS = ServerConfiguration.TIMEOUT;
     private static final int MAX_RETRIES = ServerConfiguration.MAX_RETRIES;
-
-    
-    private Logger logger = LoggerFactory.getLogger(UDPClient.class);
-
     private final DatagramChannel channel;
     private final InetSocketAddress serverAddress;
     private final ScriptHandler scriptHandler;
     private final AuthUser userAutherization;
-
     UserDTO user;
+    private Logger logger = LoggerFactory.getLogger(UDPClient.class);
 
     public UDPClient(String host, int port) throws IOException {
         this.channel = DatagramChannel.open();
@@ -55,7 +51,7 @@ public class UDPClient implements AutoCloseable {
         logger.info("Запуск клиента. Подключение к серверу:" + serverAddress.getHostName() + "по порту " + serverAddress.getPort());
         user = authUser();
 
-        if (user == null){
+        if (user == null) {
             logger.error("Авторизация пользователя не удалась. Завершение работы клиента...");
             return;
         }
@@ -68,17 +64,17 @@ public class UDPClient implements AutoCloseable {
                 String[] input = inputLine.split(" ", 2);
                 String command = input.length > 0 ? input[0].toLowerCase() : null;
                 String args = input.length > 1 ? input[1] : null;
-                
+
                 Request request = new Request(user, command, args);
 
                 Response response = sendRequestWithRetry(request);
-    
+
                 if (response != null) {
                     JLineConsole.getConsole().println(response.getMessage());
                 } else {
                     JLineConsole.getConsole().println("Сервер недоступен. Попробуйте позже.");
                 }
-    
+
             } catch (UserInterruptException e) {
                 JLineConsole.getConsole().printError("Перехвачен сигнал выхода из клиента");
                 break;
@@ -92,18 +88,18 @@ public class UDPClient implements AutoCloseable {
         }
     }
 
-    public Response sendRequestWithRetry(Request request) throws ClassNotFoundException{
-        if (new Exit().getName().equals(request.getCommandName())){
+    public Response sendRequestWithRetry(Request request) throws ClassNotFoundException {
+        if (new Exit().getName().equals(request.getCommandName())) {
             logger.info("Завершение работы клиента...");
-            close(); 
+            close();
             System.exit(0);
         }
-        if (checkCreateable(request.getCommandName())){
+        if (checkCreateable(request.getCommandName())) {
             Flat flat = ((Createable) CommandManager.getCommand(request.getCommandName())).create();
-            request = new Request(user, request.getCommandName(), request.getArgs(),  flat);
+            request = new Request(user, request.getCommandName(), request.getArgs(), flat);
         }
 
-        if (new ScriptExecute().getName().equals(request.getCommandName())){
+        if (new ScriptExecute().getName().equals(request.getCommandName())) {
             return scriptHandler.execute(request);
         }
 
@@ -125,7 +121,7 @@ public class UDPClient implements AutoCloseable {
     public Response sendRequest(Request request) throws IOException, ClassNotFoundException {
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+             ObjectOutputStream oos = new ObjectOutputStream(baos)) {
 
             oos.writeObject(request);
             byte[] requestData = baos.toByteArray();
@@ -139,7 +135,7 @@ public class UDPClient implements AutoCloseable {
 
             if (responseAddress != null) {
                 ObjectInputStream ois = new ObjectInputStream(
-                    new ByteArrayInputStream(responseBuffer.array(), 0, responseBuffer.position())
+                        new ByteArrayInputStream(responseBuffer.array(), 0, responseBuffer.position())
                 );
                 return (Response) ois.readObject();
             }
@@ -164,19 +160,18 @@ public class UDPClient implements AutoCloseable {
         return user;
     }
 
-    private boolean checkCreateable(String command){
+    private boolean checkCreateable(String command) {
         return CommandManager.getCommand(command) instanceof Createable;
     }
-    
 
 
-    private UserDTO authUser(){
-            
+    private UserDTO authUser() {
+
         String signInMode = "";
         UserDTO user = null;
 
-        while ((!signInMode.equals("register") || !signInMode.equals("login")) & (user == null)){
-            try{
+        while ((!signInMode.equals("register") || !signInMode.equals("login")) & (user == null)) {
+            try {
                 String login;
                 String password;
 
@@ -186,13 +181,13 @@ public class UDPClient implements AutoCloseable {
                     case "register":
                         DefaultConsole.getConsole().println("\n=== Регистрация нового пользователя ===");
                         while (true) {
-                            
+
                             login = JLineConsole.getConsole().readline("Введите логин: ").trim();
 
                             if (login.isEmpty()) {
                                 JLineConsole.getConsole().printError("Логин не может быть пустым");
                                 continue;
-                            } 
+                            }
 
                             if (login.contains(" ")) {
                                 JLineConsole.getConsole().printError("Логин не может содержать пробелы");
@@ -200,24 +195,24 @@ public class UDPClient implements AutoCloseable {
                             }
 
                             Response responseLogin = userAutherization.checkUser(login);
-                            if (responseLogin.isExist()){
+                            if (responseLogin.isExist()) {
                                 JLineConsole.getConsole().printError("Пользователь с таким логином уже существует");
                                 continue;
                             }
 
-                        while (true){
-                            password = JLineConsole.getConsole().readline("Введите пароль: ").trim();
-                            if (password.isEmpty()) {
-                                JLineConsole.getConsole().printError("Пароль не может быть пустым");
-                                continue;
-                            }
+                            while (true) {
+                                password = JLineConsole.getConsole().readline("Введите пароль: ").trim();
+                                if (password.isEmpty()) {
+                                    JLineConsole.getConsole().printError("Пароль не может быть пустым");
+                                    continue;
+                                }
 
-                            Response responseUser = userAutherization.register(login, password);
-                            return responseUser.getUser();
+                                Response responseUser = userAutherization.register(login, password);
+                                return responseUser.getUser();
+                            }
                         }
-                    }
                     case "login":
-                        while (true){
+                        while (true) {
                             DefaultConsole.getConsole().println("\n=== Процесс авторизации пользователя ===");
                             login = JLineConsole.getConsole().readline("Введите логин: ").trim();
                             if (login.isEmpty()) {
@@ -230,25 +225,25 @@ public class UDPClient implements AutoCloseable {
                                 JLineConsole.getConsole().printError("Пароль не может быть пустым");
                                 continue;
                             }
-                            
-                            if (login.contains(" ")){
+
+                            if (login.contains(" ")) {
                                 JLineConsole.getConsole().printError("Ошибка авторизации пользователя: неверный логин или пароль");
                                 break;
                             }
 
                             Response responseUser = userAutherization.login(login, password);
-                            if (responseUser.getUser() == null){
+                            if (responseUser.getUser() == null) {
                                 JLineConsole.getConsole().printError("Ошибка авторизации пользователя: неверный логин или пароль");
                                 break;
                             }
                             return responseUser.getUser();
                         }
-                        
+
                 }
-            }catch (UserInterruptException e){
+            } catch (UserInterruptException e) {
                 JLineConsole.getConsole().printError("Перехвачен сигнал выхода из клиента");
                 return null;
-            }catch (IOException e){
+            } catch (IOException e) {
                 JLineConsole.getConsole().println("ошибка ввода " + e.getMessage());
                 return null;
             } catch (ClassNotFoundException e) {
@@ -256,7 +251,7 @@ public class UDPClient implements AutoCloseable {
                 return null;
             }
         }
-        return user;   
+        return user;
     }
 }
 

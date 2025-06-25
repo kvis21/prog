@@ -7,12 +7,13 @@ import org.shared.configs.ServerConfiguration;
 
 class ClientRunner {
     public static void main(String[] args) {
-        try{
+        try {
             //UDPClient client = new UDPClient("192.168.10.80", ServerConfiguration.PORT); //helios
             UDPClient client = new UDPClient(ClientConfiguration.HOST, ServerConfiguration.PORT);
 
             client.startInteractiveMode();
             client.close();
-        } catch(IOException e) {}
+        } catch (IOException e) {
+        }
     }
 }

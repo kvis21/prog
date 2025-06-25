@@ -21,7 +21,7 @@ public class DBFlatManager {
 
     private static final Logger log = LoggerFactory.getLogger(DBFlatManager.class);
     private static DBFlatManager instance;
-    
+
     public static DBFlatManager getInstance() {
         return instance == null ? instance = new DBFlatManager() : instance;
     }
@@ -32,7 +32,8 @@ public class DBFlatManager {
                 Set<Flat> flats = new HashSet<>();
                 while (result.next()) {
                     map(result).ifPresent(flats::add);
-                };
+                }
+                ;
                 return flats;
             }
         } catch (SQLException e) {
@@ -127,30 +128,30 @@ public class DBFlatManager {
         }
     }
 
-     private Optional<Flat> map(ResultSet result) throws SQLException {
+    private Optional<Flat> map(ResultSet result) throws SQLException {
         if (result == null) return Optional.empty();
-        return result!=null ?
+        return result != null ?
                 Optional.of(
-                    new Flat(
-                        result.getInt("id"),
-                        result.getInt("user_id"),
-                        result.getString("name"),
-                        new Coordinates(
-                            result.getInt("coord_x"),
-                            result.getInt("coord_y")
-                        ),
-                        result.getTimestamp("creation_date").toLocalDateTime(),
-                        result.getFloat("area"),
-                        result.getInt("number_of_rooms"),
-                        result.getBoolean("balcony"),
-                        result.getInt("number_of_bathrooms"),
-                        View.valueOf(result.getString("flat_view")),
-                        new House(
-                            result.getString("house_name"),
-                            result.getLong("year"),
-                            result.getLong("number_of_flats_on_room")
+                        new Flat(
+                                result.getInt("id"),
+                                result.getInt("user_id"),
+                                result.getString("name"),
+                                new Coordinates(
+                                        result.getInt("coord_x"),
+                                        result.getInt("coord_y")
+                                ),
+                                result.getTimestamp("creation_date").toLocalDateTime(),
+                                result.getFloat("area"),
+                                result.getInt("number_of_rooms"),
+                                result.getBoolean("balcony"),
+                                result.getInt("number_of_bathrooms"),
+                                View.valueOf(result.getString("flat_view")),
+                                new House(
+                                        result.getString("house_name"),
+                                        result.getLong("year"),
+                                        result.getLong("number_of_flats_on_room")
+                                )
                         )
-                    )
                 )
                 : Optional.empty();
     }

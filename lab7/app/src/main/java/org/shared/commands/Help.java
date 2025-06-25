@@ -15,12 +15,12 @@ public class Help extends Command {
 
     @Override
     public Response execute(Request request) {
-        
+
         StringBuilder help = new StringBuilder();
 
-        help.append("#".repeat(100)+"\n");
+        help.append("#".repeat(100) + "\n");
         for (Map.Entry<String, Command> entry : CommandManager.getCommands().entrySet()) {
-            help.append(entry.getKey() + " - " + entry.getValue().getDescription()+"\n");
+            help.append(entry.getKey() + " - " + entry.getValue().getDescription() + "\n");
         }
         help.append("#".repeat(100));
 

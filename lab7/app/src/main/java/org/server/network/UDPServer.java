@@ -34,46 +34,44 @@ import org.slf4j.LoggerFactory;
 public class UDPServer implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(UDPServer.class);
     private static final int BUFFER_SIZE = ServerConfiguration.BUFFER_SIZE;
+    private static final int THREAD_POOL_SIZE = ServerConfiguration.THREAD_POOL_SIZE;
     private final int port;
-    private static final int THREAD_POOL_SIZE = ServerConfiguration.THREAD_POOL_SIZE; 
-
+    private final DBUserManager dbUserManager = new DBUserManager();
+    private final ReadWriteLock collectionLock = new ReentrantReadWriteLock();
     private volatile boolean running;
     private DatagramChannel channel;
     private Selector selector;
-    private final DBUserManager dbUserManager = new DBUserManager();
-
     private Thread requestThread;
     private Thread consoleThread;
     private ExecutorService requestProcessingPool;
-    private final ReadWriteLock collectionLock = new ReentrantReadWriteLock();
 
     public UDPServer(int port) {
         System.setProperty("file.encoding", "UTF-8");
         this.port = port;
         this.running = true;
         this.requestProcessingPool = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
-        
+
         logger.info("Сервер инициализирован для порта {}", port);
     }
 
     public void start() throws IOException {
         selector = Selector.open();
         channel = DatagramChannel.open();
-        
+
         channel.configureBlocking(false);
         channel.socket().bind(new InetSocketAddress("0.0.0.0", port));
         channel.register(selector, SelectionKey.OP_READ);
 
         logger.info("Сервер запущен на порту {}", port);
         logger.debug("Селектор и канал инициализированы");
-        
+
         startRequestThread();
 
         startConsoleThread();
 
         while (running) {
             try {
-                Thread.sleep(100); 
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 break;
@@ -88,7 +86,7 @@ public class UDPServer implements AutoCloseable {
 
             if (clientAddress != null) {
                 logger.info("Получен запрос от {}", clientAddress);
-                
+
                 // Передаем обработку запроса в пул потоков
                 requestProcessingPool.submit(() -> {
                     try {
@@ -97,9 +95,9 @@ public class UDPServer implements AutoCloseable {
 
                         Request request = (Request) ois.readObject();
                         logger.debug("Десериализован запрос");
-                        
+
                         Response response = processRequest(request);
-                        
+
                         new Thread(() -> {
                             try {
                                 byte[] responseData = response.serialize();
@@ -110,7 +108,7 @@ public class UDPServer implements AutoCloseable {
                                 logger.error("Ошибка отправки ответа клиенту {} - {}", clientAddress, e.getMessage());
                             }
                         }).start();
-                        
+
                     } catch (ClassNotFoundException e) {
                         logger.error("Ошибка десериализации запроса", e);
                         sendError(channel, clientAddress, "Неверный формат запроса");
@@ -131,7 +129,7 @@ public class UDPServer implements AutoCloseable {
                 try {
                     int readyChannels = selector.select();
                     if (readyChannels == 0) continue;
-                    
+
                     Set<SelectionKey> selectedKeys = selector.selectedKeys();
                     Iterator<SelectionKey> iter = selectedKeys.iterator();
 
@@ -164,7 +162,7 @@ public class UDPServer implements AutoCloseable {
                         break;
                     }
                     handleInputProcess(input);
-                }catch (UserInterruptException e){
+                } catch (UserInterruptException e) {
                     running = false;
                     logger.info("перехвачен ctrl + c. Сервер завершает работу");
                 } catch (IOException e) {
@@ -172,7 +170,9 @@ public class UDPServer implements AutoCloseable {
                         logger.error("Ошибка чтения консольного ввода", e);
                         running = false;
                     }
-                } catch (Exception e) {running = false;}
+                } catch (Exception e) {
+                    running = false;
+                }
             }
         });
         consoleThread.start();
@@ -184,7 +184,7 @@ public class UDPServer implements AutoCloseable {
             try {
                 String commandName = request.getCommandName().trim().toLowerCase();
 
-                if (commandName.equals("checkuser")){
+                if (commandName.equals("checkuser")) {
                     String login = request.getArgs();
                     return new Response(dbUserManager.existsByUsername(login));
                 }
@@ -193,7 +193,7 @@ public class UDPServer implements AutoCloseable {
                     String login = request.getArgs().split(" ", 2)[0];
                     String password = request.getArgs().split(" ", 2)[1];
                     var user = dbUserManager.saveUser(login, password);
-        
+
                     if (user.isPresent()) {
                         return new Response(user.get());
                     }
@@ -210,18 +210,20 @@ public class UDPServer implements AutoCloseable {
                     }
 
                     UserDTO user = userOpt.get();
-                    if (!PasswordUtil.checkPassword(password, user.password())) {return new Response("Неверный пароль");}
+                    if (!PasswordUtil.checkPassword(password, user.password())) {
+                        return new Response("Неверный пароль");
+                    }
 
                     return new Response(user);
                 }
 
                 Response response = CommandManager.executeCommand(request);
-                
+
                 return response;
             } finally {
                 collectionLock.writeLock().unlock();
             }
-            
+
         } catch (Exception e) {
             logger.error("Ошибка выполнения команды", e);
             return new Response("Ошибка сервера при выполнении команды");
@@ -246,7 +248,7 @@ public class UDPServer implements AutoCloseable {
     public void close() {
         running = false;
         logger.info("Запущена процедура остановки сервера");
-        
+
         try {
             collectionLock.writeLock().lock();
             try {
@@ -263,24 +265,29 @@ public class UDPServer implements AutoCloseable {
             if (channel != null) {
                 channel.close();
             }
-            if (consoleThread != null) {consoleThread.interrupt();}
-            if (requestThread != null) {requestThread.interrupt();}
-            
+            if (consoleThread != null) {
+                consoleThread.interrupt();
+            }
+            if (requestThread != null) {
+                requestThread.interrupt();
+            }
+
             requestProcessingPool.shutdown();
             logger.info("Пул обработки запросов остановлен");
-            
+
             logger.info("Ресурсы сервера освобождены");
         } catch (IOException e) {
             logger.error("Ошибка при закрытии сервера", e);
         }
-        
+
         logger.info("Сервер остановлен");
     }
 
     public void loadCollection() {
-        try{
+        try {
             ConnectionManager.getInstance();
-        } catch (SQLException e) {}
+        } catch (SQLException e) {
+        }
 
         collectionLock.writeLock().lock();
         try {
@@ -302,9 +309,9 @@ public class UDPServer implements AutoCloseable {
                 break;
 
             case "help":
-                String helpMessage = "Доступные команды:\n" + 
-                                    "exit - завершить работу сервера\n" +
-                                    "help - вывести справку по командам";
+                String helpMessage = "Доступные команды:\n" +
+                        "exit - завершить работу сервера\n" +
+                        "help - вывести справку по командам";
                 ServerConsole.getConsole().println(helpMessage);
             default:
                 logger.warn("Получена неизвестная консольная команда: {}", input);

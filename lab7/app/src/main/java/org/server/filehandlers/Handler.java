@@ -8,6 +8,6 @@ package org.server.filehandlers;
  * @see Readable
  * @see Writable
  */
-public abstract class Handler<T> implements Readable<T>, Writable<T>{
-    
+public abstract class Handler<T> implements Readable<T>, Writable<T> {
+
 }

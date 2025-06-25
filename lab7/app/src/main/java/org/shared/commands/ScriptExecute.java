@@ -25,7 +25,6 @@ public class ScriptExecute extends Command {
     }
 
 
-
     public String getDescription() {
         return "прочитать и исполнить скрипт из указанного файла.";
     }

@@ -9,7 +9,7 @@ public abstract class Command {
     public Command(String name) {
         this.name = name;
     }
-    
+
     abstract public Response execute(Request request);
 
     abstract public String getDescription();

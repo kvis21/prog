@@ -5,8 +5,8 @@ import org.shared.dto.Request;
 import org.shared.dto.Response;
 
 
-public class Clear extends Command{
-    public Clear(){
+public class Clear extends Command {
+    public Clear() {
         super("clear");
     }
 
@@ -15,7 +15,7 @@ public class Clear extends Command{
         return new Response("Коллекция очищена");
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return "очистить коллекцию";
     }
 }

@@ -1,6 +1,6 @@
 package org.shared.configs;
 
-public final  class ServerConfiguration {
+public final class ServerConfiguration {
     public static final int PORT = 9000;
 
     public static final int TIMEOUT = 5000;

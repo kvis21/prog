@@ -4,9 +4,9 @@ import org.server.collections.CollectionManager;
 import org.shared.dto.Request;
 import org.shared.dto.Response;
 
-public class Info extends Command{
+public class Info extends Command {
 
-    public Info(){
+    public Info() {
         super("info");
     }
 
@@ -22,7 +22,7 @@ public class Info extends Command{
     }
 
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "вывести информацию о коллекции";
     }
 

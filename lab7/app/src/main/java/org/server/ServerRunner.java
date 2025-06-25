@@ -1,6 +1,7 @@
 package org.server;
 
 import java.io.IOException;
+
 import org.shared.configs.ServerConfiguration;
 import org.server.network.UDPServer;
 

@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * A concrete implementation of {@link Handler} for basic file I/O operations.
  * Provides functionality for reading and writing strings to/from text files.
- * 
+ *
  * @see Handler
  */
 public class FileHandler extends Handler<String> {
@@ -18,7 +18,7 @@ public class FileHandler extends Handler<String> {
      * The reader instance for file input operations.
      */
     private final BufferedReader fileReader;
-    
+
     /**
      * The writer instance for file output operations.
      */
@@ -26,7 +26,7 @@ public class FileHandler extends Handler<String> {
 
     /**
      * Constructs a new FileHandler for the specified file path.
-     * 
+     *
      * @param filePath the path to the file to be handled
      * @throws IOException if an I/O error occurs when opening the file
      */
@@ -38,7 +38,7 @@ public class FileHandler extends Handler<String> {
 
     /**
      * Writes a string to the file and immediately flushes the buffer.
-     * 
+     *
      * @param data the string to be written to the file
      */
     @Override
@@ -52,9 +52,9 @@ public class FileHandler extends Handler<String> {
 
     /**
      * Reads a line of text from the file.
-     * 
+     *
      * @return the line that was read, or null if end of stream is reached
-     *         or an I/O error occurs
+     * or an I/O error occurs
      */
     @Override
     public String read() {

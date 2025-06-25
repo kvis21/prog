@@ -13,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-
 public class DBUserManager {
     private static final Logger log = LoggerFactory.getLogger(DBUserManager.class);
 
@@ -21,7 +20,7 @@ public class DBUserManager {
     }
 
     public Optional<UserDTO> saveUser(String username, String password) {
-        try(PreparedStatement query = ConnectionManager.getInstance().prepare(UserQuery.SAVE_USER.query())){
+        try (PreparedStatement query = ConnectionManager.getInstance().prepare(UserQuery.SAVE_USER.query())) {
             query.setString(1, username);
             query.setString(2, PasswordUtil.hashPassword(password));
 
@@ -39,21 +38,21 @@ public class DBUserManager {
         }
     }
 
-    public boolean existsByUsername (String username){
-        try(PreparedStatement query = ConnectionManager.getInstance().prepare(UserQuery.EXISTS_BY_USERNAME.query())){
+    public boolean existsByUsername(String username) {
+        try (PreparedStatement query = ConnectionManager.getInstance().prepare(UserQuery.EXISTS_BY_USERNAME.query())) {
             query.setString(1, username);
 
             try (ResultSet result = query.executeQuery()) {
                 return result.next() && result.getInt(1) > 0;
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             log.error("Ошибка при поиске пользователя по имени в БД.");
             return false;
         }
     }
 
-    public Optional<UserDTO> findByUsername(String username){
+    public Optional<UserDTO> findByUsername(String username) {
         if (username == null) return Optional.empty();
         try (PreparedStatement query = ConnectionManager.getInstance().prepare(UserQuery.FIND_BY_USERNAME.query())) {
             query.setString(1, username);
@@ -67,11 +66,11 @@ public class DBUserManager {
         }
     }
 
-    public Optional<UserDTO> findById(Long id){
+    public Optional<UserDTO> findById(Long id) {
         if (id == null) return Optional.empty();
         try (PreparedStatement query = ConnectionManager.getInstance().prepare(UserQuery.FIND_BY_ID.query())) {
             query.setLong(1, id);
-            
+
             try (ResultSet result = query.executeQuery()) {
                 return map(result);
             }
@@ -79,17 +78,17 @@ public class DBUserManager {
             log.error("Ошибка при поиске пользователя по ID в БД.");
             return Optional.empty();
         }
-    } 
+    }
 
     private Optional<UserDTO> map(ResultSet result) throws SQLException {
         if (result == null) return Optional.empty();
         return result.next() ?
                 Optional.of(
-                    new UserDTO(
-                        result.getInt("usr_id"),
-                        result.getString("username"),
-                        result.getString("user_password")
-                    )
+                        new UserDTO(
+                                result.getInt("usr_id"),
+                                result.getString("username"),
+                                result.getString("user_password")
+                        )
                 )
                 : Optional.empty();
     }

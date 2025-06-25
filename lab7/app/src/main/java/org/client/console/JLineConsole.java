@@ -18,29 +18,29 @@ import java.util.List;
  * Supports reading from both terminal and files with advanced features.
  */
 public class JLineConsole implements Console {
+    private static JLineConsole instance = new JLineConsole();
     private BufferedReader reader;
     private LineReader lineReader;
-    private static JLineConsole instance = new JLineConsole();
 
     private JLineConsole() {
         try {
             Terminal terminal = TerminalBuilder.builder()
-            .system(true)
-            .build();
+                    .system(true)
+                    .build();
 
             List<String> suggestions = new ArrayList<>();
             suggestions.addAll(CommandManager.getCommands().values().stream()
-                .map(command -> command.getName())
-                .toList()
+                    .map(command -> command.getName())
+                    .toList()
             );
             suggestions.add("login");
             suggestions.add("register");
 
             this.lineReader = LineReaderBuilder.builder()
-                .terminal(terminal)
-                .completer(new StringsCompleter(suggestions))
-                .build();
-            
+                    .terminal(terminal)
+                    .completer(new StringsCompleter(suggestions))
+                    .build();
+
             AutosuggestionWidgets widgets = new AutosuggestionWidgets(lineReader);
             widgets.enable();
             for (String commandName : CommandManager.getCommands().values().stream().map(command -> command.getName()).toList()) {
@@ -52,6 +52,10 @@ public class JLineConsole implements Console {
         } catch (IOException e) {
             throw new RuntimeException("Failed to initialize JLine terminal", e);
         }
+    }
+
+    public static JLineConsole getConsole() {
+        return instance;
     }
 
     @Override
@@ -81,10 +85,10 @@ public class JLineConsole implements Console {
         try {
             String line = lineReader.readLine(prompt).trim();
             if (line == null) {
-                
+
             }
             return line;
-        } catch (UserInterruptException e){
+        } catch (UserInterruptException e) {
             throw e;
         } catch (Exception e) {
             throw new IOException("Read failed", e);
@@ -94,10 +98,6 @@ public class JLineConsole implements Console {
     @Override
     public String readline() throws IOException, EndOfFileException {
         return readline("> ");
-    }
-
-    public static JLineConsole getConsole() {
-        return instance;
     }
 
     public boolean ready() {

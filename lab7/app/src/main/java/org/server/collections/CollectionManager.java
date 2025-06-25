@@ -3,6 +3,7 @@ package org.server.collections;
 import org.shared.exceptions.NotFoundException;
 import org.server.database.dbmanager.DBFlatManager;
 import org.shared.models.Flat;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -33,6 +34,7 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Returns singleton instance.
+     *
      * @return CollectionManager instance
      */
     public static CollectionManager getInstance() {
@@ -44,12 +46,13 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Sets singleton instance.
+     *
      * @param manager instance to set
      */
     public static void setInstance(CollectionManager manager) {
         instance = manager;
     }
-    
+
     /**
      * Loads collection from file.
      */
@@ -76,6 +79,7 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Adds flat to collection.
+     *
      * @param flat Flat to add
      */
     public void addElement(Flat flat) {
@@ -86,6 +90,7 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Gets flat by ID.
+     *
      * @param id ID to search
      * @return found Flat
      * @throws NotFoundException if flat not found
@@ -100,6 +105,7 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Updates flat properties.
+     *
      * @param flat Flat to update
      */
     public void update(Flat oldFlat, Flat newFlat) {
@@ -111,11 +117,12 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Removes flat from collection.
+     *
      * @param flat Flat to remove
      */
     public void remove(Flat flat) {
         dbManager.removeById(flat.getId());
-        collection.remove(flat);   
+        collection.remove(flat);
     }
 
     public void removeIf(Predicate<Flat> predicate) {
@@ -131,16 +138,16 @@ public class CollectionManager implements Saveable, Loadable {
     public void clear(int userId) {
         dbManager.removeByUserId(userId);
         Set<Flat> newCollection = collection.stream()
-                       .filter((el) -> el.getUserId() != userId)
-                       .collect(Collectors.toSet());
+                .filter((el) -> el.getUserId() != userId)
+                .collect(Collectors.toSet());
         collection.clear();
         collection.addAll(newCollection);
     }
-    
-    
+
 
     /**
      * Gets entire collection.
+     *
      * @return Set of Flats
      */
     public Set<Flat> getCollection() {
@@ -149,17 +156,19 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Gets flat with minimal value.
+     *
      * @return minimal Flat
      */
     public Flat getMinFlat() {
         Optional<Flat> minFlat = collection.stream()
-                                            .min(Flat::compareTo);
+                .min(Flat::compareTo);
         return minFlat.orElse(null);
-       
+
     }
 
     /**
      * Calculates average number of bathrooms.
+     *
      * @return average value
      */
     public float getAverageNumberOfBathrooms() {
@@ -172,6 +181,7 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Gets flat with minimal number of rooms.
+     *
      * @return Flat with minimal rooms
      */
     public Flat getMinByNumberOfRooms() {
@@ -186,6 +196,7 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Filters flats containing name substring.
+     *
      * @param name substring to search
      * @return List of matching Flats
      */
@@ -201,22 +212,25 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Gets last initialization time.
+     *
      * @return LocalDateTime
      */
     public LocalDateTime getLastInitTime() {
         return lastInitTime;
     }
-    
+
     /**
      * Gets last save time.
+     *
      * @return LocalDateTime
      */
     public LocalDateTime getLastSaveTime() {
         return lastSaveTime;
     }
-    
+
     /**
      * Gets collection size.
+     *
      * @return size
      */
     public int getColectionSize() {
@@ -225,6 +239,7 @@ public class CollectionManager implements Saveable, Loadable {
 
     /**
      * Gets collection type.
+     *
      * @return type name
      */
     public String getCollectionType() {

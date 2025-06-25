@@ -13,33 +13,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-    
+
 /**
  * JLine-based console implementation for input/output operations.
  * Supports reading from both terminal and files with advanced features.
  */
 public class ServerConsole implements Console {
+    private static ServerConsole instance = new ServerConsole();
     private BufferedReader reader;
     private LineReader lineReader;
-    private static ServerConsole instance = new ServerConsole();
 
     private ServerConsole() {
         try {
             Terminal terminal = TerminalBuilder.builder()
-            .system(true)
-            .build();
+                    .system(true)
+                    .build();
 
-        
 
             List<String> suggestions = new ArrayList<>();
             suggestions.add("exit");
             suggestions.add("save");
 
             this.lineReader = LineReaderBuilder.builder()
-                .terminal(terminal)
-                .completer(new StringsCompleter(suggestions))
-                .build();
-            
+                    .terminal(terminal)
+                    .completer(new StringsCompleter(suggestions))
+                    .build();
+
             AutosuggestionWidgets widgets = new AutosuggestionWidgets(lineReader);
             widgets.enable();
             for (String commandName : CommandManager.getCommands().values().stream().map(command -> command.getName()).toList()) {
@@ -48,11 +47,14 @@ public class ServerConsole implements Console {
             this.lineReader.getHistory().add("login");
             this.lineReader.getHistory().add("register");
 
-            
 
         } catch (IOException e) {
             throw new RuntimeException("Failed to initialize JLine terminal", e);
         }
+    }
+
+    public static ServerConsole getConsole() {
+        return instance;
     }
 
     @Override
@@ -82,10 +84,10 @@ public class ServerConsole implements Console {
         try {
             String line = lineReader.readLine(prompt).trim().toLowerCase();
             if (line == null) {
-                
+
             }
             return line;
-        } catch (UserInterruptException e){
+        } catch (UserInterruptException e) {
             throw e;
         } catch (Exception e) {
             throw new IOException("Read failed", e);
@@ -95,10 +97,6 @@ public class ServerConsole implements Console {
     @Override
     public String readline() throws IOException, EndOfFileException {
         return readline("server> ");
-    }
-
-    public static ServerConsole getConsole() {
-        return instance;
     }
 
     public boolean ready() {

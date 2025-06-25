@@ -9,8 +9,8 @@ import org.shared.models.Flat;
 
 public class Response implements Serializable {
     private final String message;
-    private UserDTO user;
     private final Flat data;
+    private UserDTO user;
     private boolean isExist;
 
     public Response(String message) {
@@ -46,7 +46,15 @@ public class Response implements Serializable {
         return baos.toByteArray();
     }
 
-    public String getMessage() { return message; }
-    public Object getData() { return data; }
-    public UserDTO getUser() { return user; }
+    public String getMessage() {
+        return message;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public UserDTO getUser() {
+        return user;
+    }
 }

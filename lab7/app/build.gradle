@@ -20,10 +20,10 @@ dependencies {
     implementation 'org.jline:jline-terminal:3.30.0' // Добавлено
     implementation 'org.jline:jline-reader:3.30.0' // Добавлено
     implementation 'org.jline:jline-terminal-jansi:3.30.0' // Обновите версию
-    
+
     // Для цветного вывода (опционально)
     implementation 'org.fusesource.jansi:jansi:2.4.0'
-    
+
     // Для ASCII-таблиц (опционально)
     implementation 'de.vandermeer:asciitable:0.3.2'
 

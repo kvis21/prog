@@ -9,7 +9,7 @@ import org.client.console.DefaultConsole;
 /**
  * The {@code ModelCreater} class is an abstract base class for creating models of type {@code T}.
  **/
-public abstract class ModelCreater <T>{
+public abstract class ModelCreater<T> {
 
     /**
      * Builds and returns an instance of the model. This method must be implemented by subclasses
@@ -19,16 +19,15 @@ public abstract class ModelCreater <T>{
      */
     public abstract T build();
 
-    
 
     /**
      * Prompts the user for input, parses it, and validates it using the provided predicate and parser.
      * This method continues to prompt the user until valid input is provided.
      *
-     * @param <K>     The type of the parsed input.
-     * @param prompt   The prompt message displayed to the user.
+     * @param <K>       The type of the parsed input.
+     * @param prompt    The prompt message displayed to the user.
      * @param validator A predicate to validate the parsed input.
-     * @param parser   A function to parse the input string into the desired type.
+     * @param parser    A function to parse the input string into the desired type.
      * @return The parsed and validated input.
      */
     protected <K> K InputParser(String prompt, Predicate<K> validator, Function<String, K> parser) {
@@ -63,9 +62,9 @@ public abstract class ModelCreater <T>{
      * Prompts the user for boolean input, validates it using the provided predicate, and parses it
      * into a {@code Boolean} value. This method continues to prompt the user until valid input is provided.
      *
-     * @param prompt   The prompt message displayed to the user.
+     * @param prompt    The prompt message displayed to the user.
      * @param validator A predicate to validate the input string.
-     * @param parser   A function to parse the input string into a {@code Boolean} value.
+     * @param parser    A function to parse the input string into a {@code Boolean} value.
      * @return The parsed and validated boolean input.
      */
     protected Boolean BooleanParser(String prompt, Predicate<String> validator, Function<String, Boolean> parser) {

@@ -17,7 +17,7 @@ public class ConnectionManager {
 
     private Connection connection;
 
-    private ConnectionManager()  {
+    private ConnectionManager() {
         try {
             Class.forName("org.postgresql.Driver");
             this.connection = DriverManager.getConnection(

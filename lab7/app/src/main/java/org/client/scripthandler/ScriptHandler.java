@@ -25,46 +25,47 @@ public class ScriptHandler {
     String currentPath;
     BufferedReader currentReader = DefaultConsole.getConsole().getReader();
 
-    public ScriptHandler(UDPClient client){
+    public ScriptHandler(UDPClient client) {
         this.client = client;
     }
 
     public Response execute(Request request) {
-        if (request.getArgs()==null) return new Response("Необходимо указать путь к файлу.");
-        if (ClientConfiguration.DATA_PATH==null) return new Response("Необходимо указать системную переменную DATA_FILE_PATH - путь к папке с файлами скриптов.");
+        if (request.getArgs() == null) return new Response("Необходимо указать путь к файлу.");
+        if (ClientConfiguration.DATA_PATH == null)
+            return new Response("Необходимо указать системную переменную DATA_FILE_PATH - путь к папке с файлами скриптов.");
 
         String filename = request.getArgs().trim();
         String filePath = Paths.get(ClientConfiguration.DATA_PATH, filename)
-            .toAbsolutePath()
-            .normalize()
-            .toString();
+                .toAbsolutePath()
+                .normalize()
+                .toString();
 
         if (!new File(filePath).exists()) return new Response("не удалось найти файл по указанному пути: " + filePath);
-        
-        
+
+
         if (pathStack.contains(filePath)) {
             throw new RecursionDetectException();
         }
         pathStack.push(currentPath);
 
         try {
-            
+
             readerStack.push(currentReader);
-            
+
             currentReader = new BufferedReader(new InputStreamReader(
-                new FileInputStream(filePath), StandardCharsets.UTF_8));
+                    new FileInputStream(filePath), StandardCharsets.UTF_8));
             currentPath = filePath;
-            
-        
+
+
             DefaultConsole.getConsole().setReader(currentReader);
-            
+
             runScript(filePath);
             restorePreviousReader();
-            
+
         } catch (IOException e) {
             return new Response("Ошибка открытия файла: " + filePath);
         }
-        return new Response("Выполнение скрипта "+ filePath + " завершено.");
+        return new Response("Выполнение скрипта " + filePath + " завершено.");
     }
 
     private void restorePreviousReader() {
@@ -98,7 +99,7 @@ public class ScriptHandler {
                     String args = input.length > 1 ? input[1] : null;
 
                     Request request = new Request(client.getUser(), command, args);
-                    
+
                     if (request.getCommandName().isEmpty()) continue;
                     Response response = client.sendRequestWithRetry(request);
 
@@ -107,7 +108,7 @@ public class ScriptHandler {
                     } else {
                         System.out.println("Сервер недоступен. Попробуйте позже.");
                     }
-                
+
                 } catch (RecursionDetectException e) {
                     resetToDefault();
                     throw new RecursionDetectException();

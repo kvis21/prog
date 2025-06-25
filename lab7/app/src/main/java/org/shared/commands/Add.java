@@ -7,8 +7,8 @@ import org.shared.dto.Response;
 import org.shared.models.Flat;
 
 
-public class Add extends Command implements Createable{
-    public Add(){
+public class Add extends Command implements Createable {
+    public Add() {
         super("add");
     }
 
@@ -19,11 +19,11 @@ public class Add extends Command implements Createable{
         return new Response("Элемент успешно добавлен.");
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return "добавить элемент в коллекцию";
     }
 
-    public Flat create(){
+    public Flat create() {
         return new FlatCreater().build();
     }
 }

@@ -53,6 +53,7 @@ public class CommandManager {
 
     /**
      * Returns the singleton instance of CommandManager.
+     *
      * @return CommandManager instance
      */
     public static CommandManager getInstance() {
@@ -64,8 +65,9 @@ public class CommandManager {
 
     /**
      * Registers a new command with the manager.
+     *
      * @param commandName the name to register the command under
-     * @param command the Command implementation
+     * @param command     the Command implementation
      */
     public static void register(String commandName, Command command) {
         commands.put(commandName.toLowerCase(), command);
@@ -73,6 +75,7 @@ public class CommandManager {
 
     /**
      * Returns all registered commands.
+     *
      * @return Map of command names to Command objects
      */
     public static Map<String, Command> getCommands() {
@@ -80,9 +83,9 @@ public class CommandManager {
     }
 
 
-
     /**
      * Retrieves a command by name.
+     *
      * @param commandName the name of the command to retrieve
      * @return Command implementation or null if not found
      */
@@ -92,12 +95,13 @@ public class CommandManager {
 
     /**
      * Executes a command by name with the provided arguments.
+     *
      * @param request request object containing command name and arguments
      * @return Response with execution result
      */
     public static Response executeCommand(Request request) {
         String commandName = request.getCommandName();
-        
+
         Command command = getCommand(commandName);
         if (command == null) {
             return new Response("Команда '" + commandName + "' не найдена. Введите 'help' для списка команд.");
@@ -105,7 +109,7 @@ public class CommandManager {
 
         try {
             return command.execute(request);
-            
+
         } catch (Exception e) {
             return new Response("Ошибка выполнения команды '" + commandName + "': " + e.getMessage());
         }

@@ -4,16 +4,17 @@ import org.server.collections.CollectionManager;
 import org.shared.dto.Request;
 import org.shared.dto.Response;
 
-public class Exit extends Command{
-    public Exit(){
+public class Exit extends Command {
+    public Exit() {
         super("exit");
     }
-    public Response execute(Request request){
+
+    public Response execute(Request request) {
         CollectionManager.getInstance().save();
         return new Response("Выход из программы");
     }
-    
-    public String getDescription(){
+
+    public String getDescription() {
         return "завершить программу";
     }
 

@@ -6,26 +6,26 @@ import org.shared.dto.Response;
 import org.shared.models.Flat;
 import org.server.modelcreaters.FlatCreater;
 
-public class RemoveLower extends Command implements Createable{
+public class RemoveLower extends Command implements Createable {
 
     public RemoveLower() {
         super("removeLower");
     }
 
     public Response execute(Request request) {
-       try{
+        try {
             Flat flat = request.getObject();
 
             CollectionManager.getInstance()
-                .removeIf(
-                    flat1 -> flat1.compareTo(flat) < 0 &&
-                    flat1.getUserId()==request.getUser().userId()
-                );
+                    .removeIf(
+                            flat1 -> flat1.compareTo(flat) < 0 &&
+                                    flat1.getUserId() == request.getUser().userId()
+                    );
 
             return new Response("Элементы удалены");
-        }catch (Exception e){
+        } catch (Exception e) {
             return new Response("Не удалось удалить элементы коллекции" + e.getMessage());
-        } 
+        }
     }
 
     public Flat create() {

@@ -17,13 +17,13 @@ public class AuthUser {
         return client.sendRequestWithRetry(request);
     }
 
-    public Response register(String login, String password) throws ClassNotFoundException{
-        Request request = new Request("register", login+" "+password);
+    public Response register(String login, String password) throws ClassNotFoundException {
+        Request request = new Request("register", login + " " + password);
         return client.sendRequestWithRetry(request);
     }
 
-    public Response login(String login, String password) throws ClassNotFoundException{
-        Request request = new Request("login", login+" "+password);
+    public Response login(String login, String password) throws ClassNotFoundException {
+        Request request = new Request("login", login + " " + password);
         return client.sendRequestWithRetry(request);
     }
 

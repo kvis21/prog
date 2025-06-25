@@ -5,17 +5,17 @@ import org.shared.dto.Request;
 import org.shared.dto.Response;
 
 
-public class AverageNumberOfBathroom extends Command{
-    public AverageNumberOfBathroom(){
+public class AverageNumberOfBathroom extends Command {
+    public AverageNumberOfBathroom() {
         super("AverageNumberOfBathrooms");
     }
 
     public Response execute(Request request) {
-        try{
-            
+        try {
+
             Float AverageNumberOfBathroom = CollectionManager.getInstance().getAverageNumberOfBathrooms();
             return new Response("Среднее число ванных комнат в коллекции: " + AverageNumberOfBathroom);
-        }catch (Exception e){
+        } catch (Exception e) {
             return new Response("Не удалось выполнить команду AverageNumberOfBathroom");
         }
     }
@@ -24,5 +24,5 @@ public class AverageNumberOfBathroom extends Command{
         return "вывести среднее значение поля numberOfBathrooms для всех элементов коллекции";
     }
 
-    
+
 }   

@@ -1,5 +1,5 @@
 package org.shared.exceptions;
 
-public class InvalidValueException extends Exception{
-    
+public class InvalidValueException extends Exception {
+
 }

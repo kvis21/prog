@@ -3,6 +3,7 @@ package org.server.filehandlers;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.*;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,9 +24,9 @@ public class JSONHandler<T> extends Handler<T> {
      * Gson instance configured with pretty printing and custom type adapters.
      */
     private static final Gson gson = new GsonBuilder()
-        .setPrettyPrinting()
-        .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-        .create();
+            .setPrettyPrinting()
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
+            .create();
 
     /**
      * Type token used for generic type information.
@@ -41,7 +42,7 @@ public class JSONHandler<T> extends Handler<T> {
      * Constructs a new JSONHandler for the specified type and file path.
      *
      * @param typeToken the TypeToken representing the generic type T
-     * @param filePath the path to the JSON file to handle
+     * @param filePath  the path to the JSON file to handle
      */
     public JSONHandler(TypeToken<T> typeToken, String filePath) {
         this.filePath = filePath;
@@ -53,7 +54,7 @@ public class JSONHandler<T> extends Handler<T> {
      *
      * @return the parsed object from the JSON file
      * @throws FileNotFoundException if the file does not exist
-     * @throws RuntimeException if there's an error reading or parsing the file
+     * @throws RuntimeException      if there's an error reading or parsing the file
      */
     @Override
     public T read() throws FileNotFoundException {
@@ -72,8 +73,8 @@ public class JSONHandler<T> extends Handler<T> {
     /**
      * Gets the last modified date and time of the file.
      *
-     * @return LocalDateTime representing when the file was last modified, 
-     *         or null if the file doesn't exist or an error occurs
+     * @return LocalDateTime representing when the file was last modified,
+     * or null if the file doesn't exist or an error occurs
      */
     public LocalDateTime getModifDateTime() {
         File file = new File(filePath);
@@ -122,7 +123,7 @@ public class JSONHandler<T> extends Handler<T> {
      */
     public void setModifiedDate(LocalDateTime dateTime) {
         FileTime newFileTime = FileTime.from(
-            dateTime.atZone(ZoneId.systemDefault()).toInstant()
+                dateTime.atZone(ZoneId.systemDefault()).toInstant()
         );
         try {
             Files.setLastModifiedTime(Path.of(filePath), newFileTime);
@@ -168,7 +169,7 @@ public class JSONHandler<T> extends Handler<T> {
         /**
          * Serializes LocalDateTime to JSON.
          *
-         * @param out the JsonWriter to write to
+         * @param out   the JsonWriter to write to
          * @param value the LocalDateTime value to serialize
          * @throws IOException if writing fails
          */

@@ -5,8 +5,8 @@ import org.shared.dto.Request;
 import org.shared.dto.Response;
 import org.client.console.DefaultConsole;
 
-public class Show extends Command{
-    public Show(){
+public class Show extends Command {
+    public Show() {
         super("show");
     }
 
@@ -17,7 +17,7 @@ public class Show extends Command{
     }
 
     @Override
-    public String getDescription(){
+    public String getDescription() {
         return "вывести все элементы коллекции";
     }
 
